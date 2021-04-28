@@ -12,7 +12,7 @@ export const Container = styled.View`
 
 export const Text = styled.Text`
     color: #fff;
-    font-size: 34px;
+    font-size: 25px;
     padding: 15px;
     font-family: sans-serif;
 `;

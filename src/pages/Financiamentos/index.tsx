@@ -44,11 +44,13 @@ const CreateGrupo: React.FC<Item> = (item) => {
         navigate('Grupos');
     }, [navigate])
 
+    
+    
     useEffect(() => {
         const data = item.route.params[0];
         async function loadParcelas() {
             let response = await api.get('parcelas', { params: { grupo_id: data } });
-
+            
             response.data.forEach(element => {
                 if (element.status === 'Pago') {
                     element.status = true;
@@ -57,11 +59,11 @@ const CreateGrupo: React.FC<Item> = (item) => {
                     element.status = false;
                 }
             });
-
-
+            
+            
             response.data.forEach(element => {
                 const firstDate = parseISO(element.vencimento);
-
+                
                 const formattedDate = format(
                     firstDate,
                     "dd/MMMM",
@@ -72,10 +74,17 @@ const CreateGrupo: React.FC<Item> = (item) => {
         }
         loadParcelas();
     }, []);
-
-
-
-
+    
+    
+    
+    
+    function navigateFinanciamentos(item){
+        console.log(item, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+        navigate('UpdateFinanciamentos', item);
+    }
+    
+    
+    
     return (
         <>
             <Menu />
@@ -97,9 +106,9 @@ const CreateGrupo: React.FC<Item> = (item) => {
                                 <Status isPayRead={parcela.status}>
                                     <Textt>a</Textt>
                                 </Status>
-                                <Vencimento>{parcela.vencimento}</Vencimento>
-                                <Valor>{parcela.valor}</Valor>
-                                <Juros>{parcela.juros}</Juros>
+                                <Vencimento>Vencimento: {parcela.vencimento}</Vencimento>
+                                <Valor onPress={navigateFinanciamentos(parcela)}>Valor: R${parcela.valor}</Valor>
+                                {/* <Juros>{parcela.juros}</Juros> */}
                             </Parcela>
                         )) : <Texto>Você ainda não tem parcelas nesse Financiamento </Texto>
                         
